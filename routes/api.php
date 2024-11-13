@@ -23,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('blogs', [BlogController::class, 'index']);
 Route::post('blogs', [BlogController::class, 'store']);
 Route::get('blogs/{id}', [BlogController::class, 'show']);
+Route::put('blogs/{id}', [BlogController::class, 'update']);
 Route::post('save-temp-image', [TempImageController::class, 'store']);
