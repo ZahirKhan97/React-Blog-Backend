@@ -30,7 +30,7 @@ class BlogController extends Controller
                 'message' => 'Blog not Found'
             ]);
         }
-        $blog['date'] = \Carbon\Carbon::parse($blog->created_at)->format('d M, Y');
+        $blog['date'] = Carbon::parse($blog->created_at)->format('d M, Y');
         return response()->json([
             'status' => true,
             'data' => $blog
@@ -134,8 +134,22 @@ class BlogController extends Controller
         ]); 
     }
 
-    public function destroy()
+    public function destroy($id)
     {
-        // 
+        $blog = Blog::find($id);
+        if($blog == null)
+        {
+            return response()->json([
+                'status' => false,
+                'message' => 'Blog not Found'
+            ]);
+        }
+
+        File::delete(public_path('uploads/blogs/'.$blog->image));
+        $blog->delete();
+        return response()->json([
+            'status' => true,
+            'message' => 'Blog deleted successfully'
+        ]); 
     }
 }
