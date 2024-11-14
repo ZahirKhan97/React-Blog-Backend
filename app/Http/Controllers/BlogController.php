@@ -11,9 +11,14 @@ use Illuminate\Support\Facades\Validator;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $blogs = Blog::orderBy('created_at', 'DESC')->get();
+        $blogs = Blog::orderBy('created_at', 'DESC');
+        if(!empty($request->keyword))
+        {
+            $blogs = $blogs->where('title', 'like', '%'.$request->keyword.'%');
+        }
+        $blogs = $blogs->get();
         return response()->json([
             'status' => true,
             'data' => $blogs
